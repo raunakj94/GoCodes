@@ -1,5 +1,6 @@
 //maps 
 package main
+import "sort"
 import "fmt"
 func main(){
 l:=make(map[string]string)

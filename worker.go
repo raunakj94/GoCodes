@@ -13,9 +13,9 @@ func main() {
 }
 func worker(in chan int, out chan []int) {
     for {
-        order := <-in           // Receive a work order.
-        result := factor(order) // Do some work.
-        out <- result           // Send the result back.
+        order := <-in           
+        result := factor(order)
+        out <- result           
     }
 }
 func producer(out chan int) {

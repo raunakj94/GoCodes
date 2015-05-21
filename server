@@ -1,0 +1,10 @@
+package main
+import "fmt"
+import "net/http"
+func response (w http.ResponseWriter,r *http.Request){
+w.Write([]byte("Hello Web Server running")
+}
+func main(){
+http.Handlefunc("/",response)
+http.ListenAndServe(":3000",nil)
+}

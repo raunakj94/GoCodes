@@ -11,3 +11,22 @@ func main() {
 
     fmt.Println(time.Since(start))
 }
+func worker(in chan int, out chan []int) {
+    for {
+        order := <-in           
+        result := factor(order)
+        out <- result           
+    }
+}
+func producer(out chan int) {
+    for order := 0; ; order++ {
+        out <- order // Produce a work order.
+    }
+}
+
+func consumer(in chan []int, n int) {
+    for i := 0; i < n; i++ {
+        result := <-in // Consume a result.
+        fmt.Println("Consumed", result)
+    }
+}

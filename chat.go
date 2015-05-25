@@ -6,7 +6,7 @@ import (
     "fmt"
 )
 
-const listenAddr = "localhost:4000"
+const listenAddr = "localhost:4040"
 
 func main() {
     l, err := net.Listen("tcp", listenAddr)

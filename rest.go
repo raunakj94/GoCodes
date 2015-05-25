@@ -8,10 +8,10 @@ type Payload struct{
 Stuff Data}
 
 type Data struct{
-Bid Bids
-Win Winners}
-type Bids map[string]int
-type Winners map[string]int
+Fruit Fruits
+Veggies Vegetables}
+type Fruits map[string]int
+type Vegetables map[string]int
 
 func handler (w http.ResponseWriter, r *http.Request){
 response, err:=getJsonResponse()
@@ -25,17 +25,15 @@ http.HandleFunc("/", handler)
 http.ListenAndServe("localhost:1339",nil)
 }
 func getJsonResponse()([]byte, error){
-Bids:=make(map[string]int)
-Bids["Rahul"]=21
-Bids["Ravi"]=232
-Bids["Rnk"]=226
-Bids["Raj"]=226
-Bids["Riya"]=226
-Winners:=make(map[string]int)
-Winners["Ravi"]=21
-Winners["Riya"]=32
-Winners["Rnk"]=89
-d := Data{Bids,Winners}
+fruits:=make(map[string]int)
+fruits["Apples"]=2
+fruits["Oranges"]=222
+fruits["Pear"]=22
+vegetables:=make(map[string]int)
+vegetables["potato"]=21
+vegetables["tomato"]=32
+vegetables["carrot"]=89
+d := Data{fruits,vegetables}
 p := Payload{d}
 return json.MarshalIndent(p,"","  ")
 }

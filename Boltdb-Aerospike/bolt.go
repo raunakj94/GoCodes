@@ -20,10 +20,6 @@ db.Update(func(tx *bolt.Tx) error {
     b.Put([]byte("abc"), []byte("67"))
     b.Put([]byte("abc1"), []byte("97.8"))
     b.Put([]byte("abc2"), []byte("85.89"))
-    c := b.Cursor()
-    for k, v := c.First(); k != nil; k, v = c.Next() {
-        fmt.Printf("subline_id  %s bids %s.\n", k, v)
-    }
  return nil
 })
 

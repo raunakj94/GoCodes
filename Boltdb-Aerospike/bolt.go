@@ -4,10 +4,9 @@ import (
     "log"
     "fmt"
     "github.com/boltdb/bolt"
-    "time"
 )
 func main(){
-db, err :=bolt.Open("dfm.db",0600,&bolt.Options{Timeout: 1 * time.Second})
+db, err :=bolt.Open("dfm.db",0600,nil)
 	if err!=nil{
 	log.Fatal(err)
 }
@@ -23,13 +22,13 @@ db.Update(func(tx *bolt.Tx) error {
     b.Put([]byte("abc2"), []byte("85.89"))
     c := b.Cursor()
     for k, v := c.First(); k != nil; k, v = c.Next() {
-        fmt.Printf("A %s is %s.\n", k, v)
+        fmt.Printf("subline_id  %s bids %s.\n", k, v)
     }
  return nil
 })
 
 db.Update(func(tx *bolt.Tx) error {
-    b, err := tx.CreateBucketIfNotExists([]byte("bTech"))
+    b, err := tx.CreateBucketIfNotExists([]byte("AdServer"))
     if err != nil {
         return err
     }
@@ -37,10 +36,10 @@ db.Update(func(tx *bolt.Tx) error {
 
 })
 err = db.View(func(tx *bolt.Tx) error {
-      j:=tx.Bucket([]byte("subline_id"))
+      j:=tx.Bucket([]byte("AdServer"))
       c := j.Cursor()
     	for k, n := c.First(); k != nil; k, n = c.Next() {
-        	fmt.Printf("key=%s, value=%s\n", k, n)
+        	  fmt.Printf("subline_id  %s bids %s.\n", k, n)
     		}
 return nil
 })

@@ -8,7 +8,15 @@ import (
 //testSuite:=make([]string,20,20)
 	var testSuite = [] string{"abcdefgh01","abcdefgh02","abcdefgh03","abcdefgh04","abcdefgh05","abcdefgh06","abcdefgh07","abcdefgh08","abcdefgh09","abcdefgh10",
 "abcdefgh11","abcdefgh12","abcdefgh13","abcdefgh14","abcdefgh15","abcdefgh16","abcdefgh17","abcdefgh18","abcdefgh19","abcdefgh20"}
+//string slice of values i.e.timestamp
+	var time_stamp = [] string{"1433834829474","1433834829475","1433834829476","1433834829477","1433834829478",
+"1433834829479","1433834829480","1433834829481","1433834829482","1433834829483","1433834829484",
+"1433834829485","1433834829486","1433834829487","1433834829489","1433834829490","1433834829491","1433834829492",
+"1433834829493","1433834829494","1433834829495",}
 
+//uint slice of keys i.e. bids
+	bids:=make([]uint8,20,20)
+	bids=[]uint8{20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1}
 
 //Function to Calculate a Current_spend
 
@@ -68,35 +76,6 @@ There will multiple goroutines calling Batch.*/
 }
 
 	func main(){
-//string slice of values i.e.timestamp
-	time_stamp:=make([]string,20,20)
-	time_stamp=[]string{"1433834829474",
-"1433834829475",
-"1433834829476",
-"1433834829477",
-"1433834829478",
-"1433834829479",
-"1433834829480",
-"1433834829481",
-"1433834829482",
-"1433834829483",
-"1433834829484",
-"1433834829485",
-"1433834829486",
-"1433834829487",
-"1433834829489",
-"1433834829490",
-"1433834829491",
-"1433834829492",
-"1433834829493",
-"1433834829494",
-"1433834829495",
-}
-
-//uint slice of keys i.e. bids
-	bids:=make([]uint8,20,20)
-	bids=[]uint8{20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1}
-
 //Database Access Codes
 
   db, err :=bolt.Open("time.db",0666,nil)

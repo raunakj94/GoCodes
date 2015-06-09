@@ -34,7 +34,9 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
 		log.Fatal(err)
        	}
 
-//Each Update() waits for disk to commit the writes. This overhead can be minimized by combining multiple updates with the Batch operation.There// will multiple goroutines calling Batch.
+/*Each Update() waits for disk to commit the writes. This overhead can be minimized by 
+combining multiple updates with the Batch operation.
+There will multiple goroutines calling Batch.*/
 	
 	//Creating  a new bucket for storing the subline_id and current_spend
 	

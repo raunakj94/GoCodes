@@ -5,7 +5,6 @@ import (
        "github.com/boltdb/bolt"
         "fmt"
 )
-//testSuite:=make([]string,20,20)
 	var testSuite = [] string{"abcdefgh01","abcdefgh02","abcdefgh03","abcdefgh04","abcdefgh05","abcdefgh06","abcdefgh07","abcdefgh08","abcdefgh09","abcdefgh10",
 "abcdefgh11","abcdefgh12","abcdefgh13","abcdefgh14","abcdefgh15","abcdefgh16","abcdefgh17","abcdefgh18","abcdefgh19","abcdefgh20"}
 
@@ -36,6 +35,9 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
        	}
 
 //Each Update() waits for disk to commit the writes. This overhead can be minimized by combining multiple updates with the Batch operation.There// will multiple goroutines calling Batch.
+	
+	//Creating  a new bucket for storing the subline_id and current_spend
+	
 	db.Update(func(tx *bolt.Tx) error {
    			 _, err := tx.CreateBucket([]byte("ADSERVER"))
     	
@@ -44,13 +46,13 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
     				}
    	 	return nil
 })
- 
+ //Updating the subline_id=key and current_spend=value in a new bucket(adserver)  
      db.Update(func(tx *bolt.Tx) error {
  			   bucket := tx.Bucket([]byte("ADSERVER"))
    			 err := bucket.Put([]byte(temp), []byte(temp_spend[0:1]))
    			 return err
 	})
-		
+		//Viewing the subline_id and the corresponding bucket
 	db.View(func(tx *bolt.Tx) error {
    				 bucket := tx.Bucket([]byte("ADSERVER"))
    				 temp_value := bucket.Get([]byte(temp))
@@ -62,11 +64,11 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
 }
 
 	func main(){
-//uint slice of values i.e.bids
+//uint8 slice of values i.e.bids(uint8 because boltdb only returns or accept a []byte slice alias uint8 slice)
 	bids:=make([]uint8,20,20)
 	bids=[]uint8{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20}
 
-//uint slice of keys i.e. timestamp
+//uint8 slice of keys i.e. timestamp(uint8 because boltdb only returns or accept a []byte slice alias uint8 slice)
 	time_stamp:=make([]uint8,20,20)
 	time_stamp=[]uint8{20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1}
 
@@ -79,6 +81,7 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
 
   subline_count:=0
  for subline_count<20{
+ 	//Creating bucket for every subline_id
      db.Update(func(tx *bolt.Tx) error {
    					 _, err := tx.CreateBucketIfNotExists([]byte(testSuite[subline_count]))
    						 if err != nil {
@@ -91,7 +94,7 @@ subline_count++
 bid_count:=0
 	for bid_count<20{
 		iterator:=1
-
+   //Updating value for subline_id bucket with key=time_stamp and value=bid
 		db.Update(func(tx *bolt.Tx) error {
 	   		 bucket := tx.Bucket([]byte(testSuite[bid_count]))
 	   			 for iterator<21{
@@ -111,20 +114,27 @@ for display_count<20{
 		if err!=nil{
 		log.Fatal(err)
        		}
-         temp_array:=make([]uint8,20)
+         temp_slice:=make([]uint8,20)
+         
+         //Used to display and append the total bid in an temp slice to calculate the current_Spend
 	 db.View(func(tx *bolt.Tx) error {
      	 j:=tx.Bucket([]byte(testSuite[display_count]))
       	c := j.Cursor()
     	for k, val := c.First(); k != nil; k, val = c.Next() {
         	 						// fmt.Println(k, val)
 								
-                                                                  temp_array=append(temp_array,val[0])
+                                                                  temp_slice=append(temp_slice,val[0])
 }
 return nil
 })
+
 var get_Current_Spend uint8
-get_Current_Spend=Calculate_Current_spend(temp_array)
+// function called to get the current spend
+
+get_Current_Spend=Calculate_Current_spend(temp_slice)
 db.Close()
+
+//updating the current spend to the corresponding subline_id
  Update_Current_Spend(get_Current_Spend,display_count)
 	display_count++
        }

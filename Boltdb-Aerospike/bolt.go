@@ -35,7 +35,13 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
 		log.Fatal(err)
        	}
 
-//Each Update() waits for disk to commit the writes. This overhead can be minimized by combining multiple updates with the Batch operation.There// will multiple goroutines calling Batch.
+//Each Update() waits for disk to commit the writes. This overhead can be minimized by combining multiple updates with the Batch operation.There will multiple goroutines calling Batch.
+/*Each Update() waits for disk to commit the writes. This overhead can be minimized by 
+combining multiple updates with the Batch operation.
+There will multiple goroutines calling Batch.*/
+	
+	//Creating  a new bucket for storing the subline_id and current_spend
+	
 	db.Update(func(tx *bolt.Tx) error {
    			 _, err := tx.CreateBucket([]byte("ADSERVER"))
     	
@@ -62,7 +68,7 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
 }
 
 	func main(){
-//string slice of values i.e.bids
+//string slice of values i.e.timestamp
 	time_stamp:=make([]string,20,20)
 	time_stamp=[]string{"1433834829474",
 "1433834829475",
@@ -87,7 +93,7 @@ func Update_Current_Spend(currentSpend uint8,subline_key int){
 "1433834829495",
 }
 
-//uint slice of keys i.e. timestamp
+//uint slice of keys i.e. bids
 	bids:=make([]uint8,20,20)
 	bids=[]uint8{20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1}
 

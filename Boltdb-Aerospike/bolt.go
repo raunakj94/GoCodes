@@ -51,10 +51,8 @@ func Update_Current_Spend(db *bolt.DB,currentSpend uint8,subline_key int){
 
 	var temp string
 	temp=testSuite[subline_key]
-
-//Each Update() waits for disk to commit the writes. This overhead can be minimized by combining multiple updates with the Batch operation.There will multiple goroutines calling Batch.
-/*Each Update() waits for disk to commit the writes. This overhead can be minimized by 
-combining multiple updates with the Batch operation.
+d/*Each Update() waits for disk to commit the writes. This overhead can be minimized by 
+combining multiple updates with the db.Batch() operation.
 There will multiple goroutines calling Batch.*/
 	
 	//Creating  a new bucket for storing the subline_id and current_spend
@@ -122,19 +120,21 @@ bid_count++
 
 display_count:=0
 for display_count<20{
-         temp_array:=make([]uint8,20)
+         temp_slice:=make([]uint8,20)
 	 db.View(func(tx *bolt.Tx) error {
      	 j:=tx.Bucket([]byte(testSuite[display_count]))
       	c := j.Cursor()
     	for k, val := c.First(); k != nil; k, val = c.Next() {
         	 						// fmt.Println(k, val)
 								
-                                                                  temp_array=append(temp_array,val[0])
+                                                                  temp_array=append(temp_slice,val[0])
 }
 return nil
 })
 var get_Current_Spend uint8
-get_Current_Spend=Calculate_Current_spend(temp_array)
+//function call to find the current spend and storing in a temp array
+get_Current_Spend=Calculate_Current_spend(temp_slice)
+//function call to update the current spend to the corresponding subline_id
  Update_Current_Spend(db,get_Current_Spend,display_count)
 	display_count++
        }

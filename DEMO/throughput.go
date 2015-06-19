@@ -126,12 +126,12 @@ log.Printf("it only took %.3f seconds!", time.Since(startTime).Seconds())
 	})
 
 	// Output:
-	// hits to /bar: 10
-	// hits to /baz: 10
-	// hits to /foo: 10
-	// hits to /quux: 10
-	// hits to /thud: 10
-	// hits to /xyzzy: 10
+	// bids for /bar: 20
+	// bids for /baz: 20
+	// bids for /foo: 20
+	// bids for /quux: 20
+	// bids for /thud: 20
+	// bids for /xyzzy: 20
 }
 
 // encode marshals a counter.

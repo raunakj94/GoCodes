@@ -28,7 +28,7 @@ func (c counter) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	var result uint64
 
 	increment := func(tx *bolt.Tx) error {
-		b, err := tx.CreateBucketIfNotExists([]byte("hits"))
+		b, err := tx.CreateBucketIfNotExists([]byte("bids"))
 		if err != nil {
 			return err
 		}
@@ -106,7 +106,7 @@ startTime := time.Now()
 	}
 	// Check all responses to make sure there's no error.
 	for i := 0; i < clients; i++ {
-		if err := <-errors; err != nil {
+		if err := <-errors; verr != nil {
 			fmt.Printf("client error: %v", err)
 			return
 		}
